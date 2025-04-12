@@ -1,4 +1,3 @@
-// App.tsx
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -8,6 +7,7 @@ import AuthNavigator from './src/navigation/AuthNavigator';
 import MainNavigator from './src/navigation/MainNavigator';
 import useAuthStore from './src/store/useAuthStore'; // if you still use Zustand for theme, etc.
 import { AuthProvider, useAuth } from './src/auth/useAuth';
+import ToastManager, { Toast } from 'toastify-react-native'
 
 export default function App() {
   // If you’re managing theme with Zustand, you can continue to do so.
@@ -20,6 +20,7 @@ export default function App() {
         <SafeAreaProvider>
           <NavigationContainer>
             <AuthOrMainNavigator />
+            <ToastManager/>
           </NavigationContainer>
         </SafeAreaProvider>
       </ThemeProvider>

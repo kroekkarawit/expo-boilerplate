@@ -2,7 +2,9 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import { useAuth } from '../../auth/useAuth';
+import ToastManager, { Toast } from 'toastify-react-native'
 
+import { showErrorToast, showSuccessToast} from '@/components/toast';
 export default function ProfileScreen() {
   const { user, logout } = useAuth();
 
@@ -13,12 +15,27 @@ export default function ProfileScreen() {
         <>
           <Text style={styles.info}>Name: {user.name}</Text>
           <Text style={styles.info}>Email: {user.email}</Text>
-          {/* Display additional user info if available */}
+          
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
+          <Button
+            title='Show toast'
+            onPress={()=> showSuccessToast('Success', 'This is a success message')}
+          />
+
+          <Button
+            title='Show error toast'
+            onPress={() => showErrorToast('Error', 'This is an error message')}
+          />
+          </View>
+          
           <Button title="Logout" onPress={logout} />
         </>
       ) : (
         <Text>No user data available.</Text>
       )}
+
+<ToastManager />
+
     </View>
   );
 }

@@ -4,9 +4,9 @@ import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import api from '../../api/axiosInstance';
-import { useAuth } from '../../auth/useAuth'; // Use the AuthContext hook
+import { useAuth } from '../../auth/useAuth';
+import ToastManager, { Toast } from 'toastify-react-native'
 
-// Validation schema using Zod
 const loginSchema = z.object({
   email: z.string().nonempty('Email is required').email('Invalid email'),
   password: z.string().min(6, 'Password must be at least 6 characters'),
@@ -23,39 +23,40 @@ export default function LoginScreen({ navigation }: any) {
     resolver: zodResolver(loginSchema),
   });
 
-  // Grab login from the AuthContext
   const { login } = useAuth();
 
-  // Handler for form submission.
+
+
   const onSubmit = async (data: LoginFormData) => {
     try {
       const response = await api.post('/api/user/login', data);
-      console.log('Login response:', response.data);
-      // The response should contain both token and user data.
-      // Update the auth state and persist the data in AsyncStorage.
       const { token, user } = response.data;
-      
-      // Construct a user object that fits our AuthContext type
-      const loggedInUser = { 
+
+      const loggedInUser = {
         id: user.id,
         name: user.name,
         email: user.email,
-        isPremium: user.isPremium || false,  // adjust if your API uses a different flag
-        token: token
+        isPremium: user.isPremium || false,
+        token: token,
       };
 
-      // Call the login function from AuthContext
       await login(loggedInUser);
-    } catch (error) {
+
+      // ✅ Show success toast
+      Toast.success('success', 'top')
+
+    } catch (error: any) {
       console.error('Login failed:', error);
-      // Optionally add error-handling or toast notifications here.
+
+      Toast.error('Login Failed', 'top')
+
     }
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Login</Text>
-      
+
       <Controller
         control={control}
         name="email"
