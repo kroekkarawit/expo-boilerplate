@@ -7,7 +7,7 @@ export const showSuccessToast = (title: string, message?: string) => {
       text1: title || "Success",
       text2: message || "",
       position: 'top',
-      visibilityTime: 5000,
+      visibilityTime: 1000,
       autoHide: true,
       backgroundColor: '#4CAF50',
       textColor: '#fff',
@@ -24,7 +24,7 @@ export const showErrorToast = (title?: string, message?: string) => {
     text1: title || 'Error',
     text2: message || '',
     position: 'top',
-    visibilityTime: 5000,
+    visibilityTime: 1000,
     autoHide: true,
     backgroundColor: '#F44336',       // Red
     textColor: '#fff',
@@ -41,7 +41,7 @@ export const showInfoToast = (title?: string, message?: string) => {
     text1: title || 'Info',
     text2: message || '',
     position: 'top',
-    visibilityTime: 5000,
+    visibilityTime: 1000,
     autoHide: true,
     backgroundColor: '#2196F3',       // Blue
     textColor: '#fff',
