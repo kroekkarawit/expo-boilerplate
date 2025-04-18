@@ -25,8 +25,6 @@ export default function LoginScreen({ navigation }: any) {
 
   const { login } = useAuth();
 
-
-
   const onSubmit = async (data: LoginFormData) => {
     try {
       const response = await api.post('/api/user/login', data);

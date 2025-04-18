@@ -1,5 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import useAuthStore from "../store/useAuthStore";  // <— import your Zustand store
+import i18n from "../i18n";
 
 type User = {
   id: string;
@@ -21,6 +23,8 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
+  const setLanguage = useAuthStore((s) => s.setLanguage);
+
 
   useEffect(() => {
     const loadUser = async () => {
@@ -30,6 +34,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       } catch (error) {
         console.error("Failed to load user data:", error);
       }
+
+      try {
+        const lang = await AsyncStorage.getItem("language");
+        if (lang) {
+          // update i18n and Zustand store
+          i18n.locale = lang;
+          setLanguage(lang);
+        }
+      } catch (err) {}
     };
     
     loadUser();
